@@ -1,0 +1,32 @@
+# Placeholder Images Needed
+
+The following image files are referenced in the menu data but need to be created:
+
+## Entrees
+- pierogi-classic.jpg
+- pierogi-meat.jpg
+- pierogi-sauerkraut.jpg
+- pierogi-spinach.jpg
+- pierogi-sweet-potato.jpg
+- kielbasa-platter.jpg
+
+## Appetizers
+- potato-pancakes.jpg
+- polish-pickles.jpg
+- stuffed-cabbage.jpg
+- polish-bread.jpg
+
+## Desserts
+- sweet-pierogis.jpg
+- apple-pierogi.jpg
+- polish-donuts.jpg
+- polish-cheesecake.jpg
+
+## Beverages
+- polish-beer.jpg
+- kompot.jpg
+- polish-coffee.jpg
+- polish-tea.jpg
+- soft-drinks.jpg
+
+Note: These can be replaced with actual food images or placeholder images as needed.

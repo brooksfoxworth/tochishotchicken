@@ -1,0 +1,646 @@
+:root {
+    --primary-color: #ff6b00;       /* Orange - primary brand color */
+    --secondary-color: #ffffff;     /* White - secondary brand color */
+    --background-color: #fff0e6;    /* Light pastel orange background */
+    --surface-color: #fff8f2;       /* Light orange tint for surface */
+    --text-dark: #2d1900;           /* Dark brown for text */
+    --text-medium: #5a3d20;         /* Medium brown for secondary text */
+    --text-light: #8c6b4f;          /* Light brown for tertiary text */
+    --border-color: #ffd9b3;        /* Light orange border color */
+    --form-background-color: #ffffff; /* White form background */
+    --gradient-primary: linear-gradient(135deg, #ff6b00 0%, #e65100 100%);
+    --gradient-secondary: linear-gradient(135deg, #ffffff 0%, #fff0e6 100%);
+    --gradient-hero: linear-gradient(135deg, rgba(255, 107, 0, 0.9) 0%, rgba(230, 81, 0, 0.8) 100%);
+    --shadow-glow: 0 0 20px rgba(255, 107, 0, 0.2);
+    --shadow-card: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Swiper Container Fixes */
+.swiper-container-fix {
+    overflow: visible;
+    padding-bottom: 60px !important;
+}
+
+/* Uniform Card Heights */
+.swiper-card {
+    display: flex;
+    flex-direction: column;
+    height: 100% !important;
+    min-height: 400px;
+}
+
+.swiper-card > div:last-child {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Pagination Centering */
+.swiper-pagination {
+    position: relative !important;
+    bottom: auto !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: auto !important;
+    margin-top: 30px !important;
+    text-align: center;
+}
+
+.game-day-swiper-pagination,
+.fans-say-swiper-pagination {
+    position: relative !important;
+    bottom: auto !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: auto !important;
+    margin-top: 30px !important;
+    text-align: center;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+/* Swiper Slide Heights */
+.swiper-wrapper {
+    align-items: stretch !important;
+}
+
+.swiper-slide {
+    height: auto !important;
+    display: flex !important;
+}
+
+/* Game Day and Fans Say specific card styling */
+.game-day-swiper .swiper-card,
+.fans-say-swiper .swiper-card {
+    min-height: 420px;
+}
+
+/* Testimonial card specific styling */
+.fans-say-swiper .swiper-card {
+    min-height: 280px;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', 'Noto Sans', sans-serif;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Smooth fade-in animation for page loads */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Footer Styles */
+footer {
+    position: relative;
+    left: 0;
+    right: 0;
+    background: var(--primary-color);
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    padding: 0.5rem 0;
+    box-sizing: border-box;
+    margin-top: auto;
+}
+
+/* Container for dock items */
+footer > div {
+    display: flex;
+    align-items: center;
+}
+
+/* Main content wrapper */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Styles */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: var(--primary-color);
+    height: 4rem;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header h1 {
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1;
+}
+
+/* Dropdown container */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown button */
+.dropdown-toggle {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.dropdown-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.dropdown-toggle:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.4);
+    outline-offset: 2px;
+}
+
+/* Menu icon animation */
+.dropdown-toggle svg {
+    transition: transform 0.2s ease;
+}
+
+.dropdown.open .dropdown-toggle svg {
+    transform: rotate(180deg);
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.5rem);
+    width: 12rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.15s ease-out;
+    z-index: 50;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    display: none;
+}
+
+.dropdown.open .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    display: block;
+}
+
+/* Dropdown items */
+.dropdown-item {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: #1f2937;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    transition: all 0.1s ease;
+    text-align: left;
+    width: 100%;
+    border: none;
+    background: none;
+}
+
+.dropdown-item:hover {
+    background-color: #f3f4f6;
+    color: var(--primary-color);
+}
+
+.dropdown-item:active {
+    background-color: #e5e7eb;
+}
+
+.dropdown-item.active {
+    background-color: #f3f4f6;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+/* Cart count in dropdown */
+.dropdown-item .cart-count {
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.375rem;
+    margin-left: 0.5rem;
+}
+
+/* Cart count badge */
+.cart-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding: 0 0.375rem;
+    border-radius: 9999px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    line-height: 1;
+    background-color: #f59e0b;
+    color: #7c2d12;
+    margin-left: 0.5rem;
+    animation: none;
+}
+
+.cart-count.hidden {
+    display: none;
+}
+
+/* Animation for cart updates */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+.cart-count.animate {
+    animation: bounce 0.5s ease;
+}
+
+/* Mobile styles */
+@media (max-width: 640px) {
+    .dropdown-menu {
+        position: fixed;
+        top: 4rem;
+        left: 0.5rem;
+        right: 0.5rem;
+        width: auto;
+        max-height: calc(100vh - 5rem);
+        overflow-y: auto;
+        border-radius: 0.5rem;
+    }
+    
+    header {
+        padding: 0.5rem 1rem;
+    }
+    
+    header h1 {
+        font-size: 1.125rem;
+    }
+}
+
+/* Dock link styles */
+footer, footer *, footer a, footer span, footer p, footer svg {
+    color: #fff !important;
+    fill: #fff !important;
+    text-shadow: 0 0 2px #0007;
+}
+
+footer a {
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+footer a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Dock icon styles */
+footer svg {
+    fill: currentColor;
+    width: 24px;
+    height: 24px;
+}
+
+/* Safe area handling for mobile browsers */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    body {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    footer {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    .pb-safe-bottom {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    .h-safe-bottom {
+        height: env(safe-area-inset-bottom);
+    }
+}
+
+/* Main content with consistent spacing for fixed footer */
+main {
+    flex: 1;
+    padding-bottom: 5rem; /* Space for the fixed footer */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Enhanced card hover effects */
+.card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0);
+}
+
+.card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-card), var(--shadow-glow);
+}
+
+/* Gradient text effect */
+.gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Animated button */
+.btn-animated {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.btn-animated::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-animated:hover::before {
+    left: 100%;
+}
+
+/* Floating animation for emojis */
+.float-animation {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Staggered animation delays */
+.animate-delay-1 { animation-delay: 0.1s; }
+.animate-delay-2 { animation-delay: 0.2s; }
+.animate-delay-3 { animation-delay: 0.3s; }
+.animate-delay-4 { animation-delay: 0.4s; }
+.animate-delay-5 { animation-delay: 0.5s; }
+.animate-delay-6 { animation-delay: 0.6s; }
+
+.overflow-x-auto {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* Swiper Styles */
+.swiper {
+    width: 100%;
+    padding: 20px 0;
+    touch-action: pan-y;
+}
+
+.swiper-wrapper {
+    display: flex;
+    transition-property: transform;
+    box-sizing: content-box;
+}
+
+.swiper-slide {
+    height: auto;
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    transition-property: transform;
+}
+
+.swiper-pagination {
+    position: relative;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+    margin: 0 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+    background: #3b82f6; /* blue-500 */
+    transform: scale(1.2);
+}
+
+/* Fans Say Swiper specific styles */
+.fans-say-swiper .swiper-pagination-bullet-active {
+    transform: scale(1);
+}
+
+/* Game Day Swiper specific styles */
+.game-day-swiper .swiper-wrapper {
+    align-items: stretch;
+}
+
+.game-day-swiper .swiper-slide {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.game-day-swiper .swiper-slide .swiper-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.game-day-swiper .swiper-pagination {
+    position: static;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .game-day-swiper .swiper-slide {
+        width: 50%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .game-day-swiper .swiper-slide {
+        width: 33.333%;
+    }
+}
+
+/* Section Headers */
+.section-header {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 3rem;
+    padding-bottom: 0.75rem;
+}
+
+.section-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #ff8c00, #ffd700);
+    border-radius: 2px;
+}
+
+/* Ensure proper spacing between sections */
+section {
+    margin-bottom: 4rem;
+    position: relative;
+}
+
+/* Fix for section backgrounds */
+.bg-gradient-to-r {
+    border-radius: 1rem;
+    margin: 1.5rem 0;
+    overflow: hidden;
+}
+
+
+
+/* Fix for swiper container clipping issues */
+.swiper-container-fix {
+    overflow: visible; 
+    z-index: 1;
+}
+
+/* Swiper card fix */
+.swiper-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Menu item cards */
+.menu-item-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu-item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.menu-category-subheader {
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-bottom: 1px solid var(--border-color); 
+}
+
+/* Mobile spacing for Fan Favorite Chicken section */
+@media (max-width: 767px) {
+    .section-header:has(+ p) {
+        margin-bottom: 1.5rem; /* Add space between heading and description */
+    }
+    
+    .bg-orange-50 {
+        margin-top: 2.5rem; /* Add more space above the Fan Favorite section on mobile */
+    }
+}

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+    <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800" onload="this.rel='stylesheet'" rel="stylesheet"/>
+    <title>Tochi's Hot Chicken - Nashville-Style Hot Chicken in Myrtle Beach</title>
+    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <style type="text/tailwindcss">
+        .menu-item-image {
+            @apply w-28 h-28 object-cover rounded-lg flex-shrink-0;
+        }
+    </style>
+
+    <link href="./style.css" rel="stylesheet"/> 
+
+</head>
+<body class="bg-[var(--background-color)] text-[var(--text-dark)]">
+<div class="relative flex flex-col min-h-0 group/design-root overflow-x-hidden">
+
+    <header class="bg-white px-4 py-2 sticky top-0 z-50 shadow-sm border-b-2 border-[var(--primary-color)]">
+        <div class="max-w-7xl mx-auto w-full flex items-center justify-between">
+            <a href="/" class="block">
+                <img src="assets/images/tochislogo.png" alt="Tochi's Hot Chicken" class="h-12 w-auto">
+            </a>
+            <div class="flex items-center space-x-2">
+                <!-- Cart Icon -->
+                <a href="#" class="relative flex items-center justify-center text-[var(--primary-color)] hover:bg-[var(--primary-color)]/10 p-2 rounded-lg transition-colors" 
+                   data-page-link="order" 
+                   aria-label="My Order">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span id="cart-item-count-header" class="absolute -top-1 -right-1 bg-[var(--primary-color)] text-white text-xs font-bold rounded-full h-5 min-w-5 flex items-center justify-center">0</span>
+                </a>
+                
+                <!-- Dropdown Menu -->
+                <div class="dropdown relative" id="main-nav">
+                    <button class="dropdown-toggle flex items-center text-[var(--primary-color)] hover:bg-[var(--primary-color)]/10 px-4 py-2 rounded-lg transition-colors" 
+                            aria-expanded="false" 
+                            aria-controls="nav-menu"
+                            aria-label="Toggle menu">
+                        <span class="mr-2 text-[var(--primary-color)]">Menu</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform text-[var(--primary-color)]">
+                            <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl overflow-hidden hidden" 
+                     id="nav-menu" 
+                     role="menu">
+                    <a href="#" class="dropdown-item block px-4 py-3 text-gray-800 hover:bg-gray-100 transition-colors" 
+                       data-page-link="home" 
+                       role="menuitem">
+                        Home
+                    </a>
+                    <a href="#" class="dropdown-item block px-4 py-3 text-gray-800 hover:bg-gray-100 transition-colors" 
+                       data-page-link="menu" 
+                       role="menuitem">
+                        Our Menu
+                    </a>
+
+                    <a href="#" class="dropdown-item block px-4 py-3 text-gray-800 hover:bg-gray-100 transition-colors" 
+                       data-page-link="about" 
+                       role="menuitem">
+                        Our Story
+                    </a>
+                    <a href="#" class="dropdown-item block px-4 py-3 text-gray-800 hover:bg-gray-100 transition-colors" 
+                       data-page-link="contact" 
+                       role="menuitem">
+                        Find Us
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="px-4 pt-6 pb-24 flex-grow">
+        </main>
+
+    <footer class="hidden">
+        <!-- Footer is hidden but kept in DOM for any JavaScript that might reference it -->
+        <div id="footer-links" class="hidden">
+            <a href="#" data-page-link="home">Home</a>
+            <a href="#" data-page-link="menu">Menu</a>
+            <a href="#" data-page-link="order">Order</a>
+            <a href="#" data-page-link="about">About</a>
+            <a href="#" data-page-link="contact">Contact</a>
+        </div>
+    </footer>
+
+</div>
+
+<!-- Swiper.js CDN - Load before our scripts -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<!-- Main Application Script -->
+<script type="module" src="./js/app.js"></script>
+
+<!-- Legacy Scripts (for older browsers that don't support modules) -->
+<script nomodule>
+    // Show a message if the browser doesn't support modules
+    document.body.innerHTML = `
+        <div style="text-align: center; padding: 2rem; font-family: Arial, sans-serif;">
+            <h1>Browser Update Required</h1>
+            <p>Your browser is out of date and doesn't support modern web features.</p>
+            <p>Please update to the latest version of Chrome, Firefox, Safari, or Edge.</p>
+        </div>
+    `;
+</script>
+
+</body>
+</html>
