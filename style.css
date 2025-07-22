@@ -251,7 +251,7 @@ header h1 {
 /* Dropdown menu */
 .dropdown-menu {
     position: absolute;
-    right: 0;
+    right: 1rem;  /* Add 1rem (16px) space from the right edge */
     top: calc(100% + 0.5rem);
     width: 12rem;
     background-color: white;
