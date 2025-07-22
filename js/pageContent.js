@@ -249,13 +249,6 @@ const PageContent = {
                     </div>
                 </div>
 
-                <!-- Why Myrtle Beach Section -->
-                <div class="mb-12">
-                    <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl shadow-lg p-8">
-                        <div class="flex items-center mb-6">
-                        </div>
-                    </div>
-                </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
                     <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
