@@ -423,51 +423,112 @@ class PageManager {
         this.handleAddToCartClick = this.handleAddToCartClick.bind(this);
         this.handleHeatLevelChange = this.handleHeatLevelChange.bind(this);
         
-        // Add new event listeners
-        document.body.addEventListener('click', this.handleAddToCartClick, true);
+        // Add new event listeners - use capture phase and set once to prevent duplicates
+        document.body.addEventListener('click', this.handleAddToCartClick, { capture: true, once: false });
         document.addEventListener('change', this.handleHeatLevelChange);
     }
 
-    /**
-     * Handle add to cart button clicks
-     */
-    handleAddToCartClick(e) {
-        console.log('Add to cart clicked', e.target);
+/**
+ * Handle add to cart button clicks
+ */
+handleAddToCartClick(e) {
+    // Only handle left mouse button clicks
+    if (e.button !== 0) return;
+    
+    // Skip if this is a remove button click
+    if (e.target.closest('.remove-item')) {
+        return;
+    }
+    
+    // Find the closest add to cart button
+    const addToCartBtn = e.target.closest('button[data-item-id]');
+    if (!addToCartBtn) return;
+    
+    // Skip if this is not an "Add to Cart" button
+    if (!addToCartBtn.textContent.toLowerCase().includes('add to cart')) {
+        return;
+    }
+    
+    // Prevent default and stop propagation
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    
+    // Check if already processing
+    if (addToCartBtn.getAttribute('data-processing') === 'true') return;
+    
+    try {
+        // Mark as processing
+        addToCartBtn.setAttribute('data-processing', 'true');
         
-        const addToCartBtn = e.target.closest('button[data-item-id]');
-        console.log('Add to cart button:', addToCartBtn);
-        
-        if (!addToCartBtn) {
-            console.log('Not an add to cart button');
+        // Find the closest menu item or cart item container
+        const container = addToCartBtn.closest('.menu-item, [data-item-id]');
+        if (!container) {
+            console.error('No item container found');
+            addToCartBtn.removeAttribute('data-processing');
             return;
         }
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        const menuItem = addToCartBtn.closest('.menu-item');
-        console.log('Menu item container:', menuItem);
         
-        if (!menuItem) {
-            console.log('No menu item container found');
-            return;
-        }
-
+        // Get item ID
         const itemId = addToCartBtn.getAttribute('data-item-id');
-        const itemName = addToCartBtn.getAttribute('data-item-name');
-        const itemPrice = parseFloat(addToCartBtn.getAttribute('data-item-price'));
         
-        console.log('Item details:', { itemId, itemName, itemPrice });
+        // Get item name - look for data attributes first, then fall back to DOM elements
+        let itemName = addToCartBtn.getAttribute('data-item-name');
+        if (!itemName) {
+            const nameElement = container.querySelector('h3, [data-item-name]');
+            if (nameElement) {
+                itemName = nameElement.textContent.trim();
+            } else {
+                // Try to find the name in the parent container
+                const nameInContainer = container.textContent.trim().split('\n')[0].trim();
+                itemName = nameInContainer || 'Menu Item';
+            }
+        }
         
-        if (!itemId || !itemName || isNaN(itemPrice)) return;
+        // Get item price - look for data attributes first, then fall back to DOM elements
+        let itemPrice = parseFloat(addToCartBtn.getAttribute('data-item-price'));
+        if (isNaN(itemPrice)) {
+            // Try to find price in the button text
+            const priceInButton = addToCartBtn.textContent.match(/\$([0-9]+\.?[0-9]*)/);
+            if (priceInButton && priceInButton[1]) {
+                itemPrice = parseFloat(priceInButton[1]);
+            } else {
+                // Try to find price in the container
+                const priceElement = container.querySelector('[data-item-price], .price, .menu-item-price, .text-lg');
+                if (priceElement) {
+                    const priceText = priceElement.textContent.replace(/[^0-9.]/g, '');
+                    itemPrice = parseFloat(priceText);
+                } else {
+                    // Last resort: try to find any price in the container text
+                    const priceMatch = container.textContent.match(/\$([0-9]+\.?[0-9]*)/);
+                    if (priceMatch && priceMatch[1]) {
+                        itemPrice = parseFloat(priceMatch[1]);
+                    }
+                }
+            }
+        }
+        
+        // Validate data
+        if (!itemId || !itemName || isNaN(itemPrice)) {
+            console.error('Invalid item data:', { 
+                itemId, 
+                itemName, 
+                itemPrice,
+                container: container.outerHTML,
+                button: addToCartBtn.outerHTML
+            });
+            addToCartBtn.removeAttribute('data-processing');
+            return;
+        }
 
-        // Get selected heat level for combo items
+        // Get selected heat level for combo items (only if we're in the menu, not in cart)
         let heatLevel = null;
-        const heatSelect = menuItem.querySelector('select[name="heat-level"]');
+        const heatSelect = container.matches('.menu-item') ? container.querySelector('select[name="heat-level"]') : null;
         if (heatSelect) {
             heatLevel = heatSelect.value;
             if (!heatLevel) {
                 this.showNotification('Please select a heat level', 'error');
+                addToCartBtn.removeAttribute('data-processing');
                 return;
             }
             
@@ -477,31 +538,67 @@ class PageManager {
             heatLevel = heatLevelText.trim();
         }
         
-        // Get selected add-ons
+        // Get selected add-ons (only if we're in the menu, not in cart)
         const addons = [];
-        const addonCheckboxes = menuItem.querySelectorAll('input[type="checkbox"]:checked');
-        addonCheckboxes.forEach(checkbox => {
-            const name = (checkbox.getAttribute('name') || '').trim() || 'Add-on';
-            const price = parseFloat(checkbox.value) || 0;
-            addons.push({ 
-                name: checkbox.nextElementSibling?.textContent.trim() || name,
-                price: price
+        if (container.matches('.menu-item')) {
+            const addonCheckboxes = container.querySelectorAll('input[type="checkbox"]:checked');
+            console.log('Found add-on checkboxes:', addonCheckboxes.length);
+            
+            addonCheckboxes.forEach(checkbox => {
+                // Get the name from the label text, removing any price in parentheses
+                const labelText = checkbox.nextElementSibling?.textContent.trim() || '';
+                const name = labelText.replace(/\(\$[0-9.\s]+\)/g, '').trim();
+                
+                // Extract price from the label text (format: "Add-on Name ($2.99)")
+                const priceMatch = labelText.match(/\(\$([0-9.]+)\)/);
+                const price = priceMatch ? parseFloat(priceMatch[1]) : 0;
+                
+                console.log('Processing add-on:', { name, price, labelText });
+                
+                if (name) {
+                    addons.push({
+                        name: name,
+                        price: price
+                    });
+                }
             });
-        });
-        
-        // Add to cart with options
-        this.cartManager.addItem(itemId, itemName, itemPrice, { 
-            heatLevel: heatLevel,
-            addons: addons
-        });
-        
-        // Show success message
-        this.showNotification(`${itemName} added to cart!`, 'success');
-        
-        // Update cart count and render cart if on cart page
-        this.cartManager.updateCartCount();
-        if (window.location.hash === '#order') {
-            this.cartManager.renderCart();
+            
+            console.log('Collected add-ons:', addons);
+        }
+            
+            console.log('Adding to cart:', { itemId, itemName, itemPrice, heatLevel, addons });
+            
+            // Add to cart with options
+            this.cartManager.addItem(itemId, itemName, itemPrice, { 
+                heatLevel: heatLevel,
+                addons: addons
+            });
+            
+            // Show success message
+            this.showNotification(`${itemName} added to cart!`, 'success');
+            
+            // Update cart count and render cart if on cart page
+            this.cartManager.updateCartCount();
+            if (window.location.hash === '#order') {
+                this.cartManager.renderCart();
+            }
+            
+            // Add visual feedback
+            const originalText = addToCartBtn.textContent;
+            addToCartBtn.textContent = 'Added!';
+            addToCartBtn.classList.add('bg-green-500', 'hover:bg-green-600');
+            
+            // Reset button state after a delay
+            setTimeout(() => {
+                addToCartBtn.textContent = originalText;
+                addToCartBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
+                addToCartBtn.removeAttribute('data-processing');
+            }, 1000);
+            
+        } catch (error) {
+            console.error('Error adding item to cart:', error);
+            this.showNotification('Error adding item to cart', 'error');
+            addToCartBtn.removeAttribute('data-processing');
         }
     }
 
